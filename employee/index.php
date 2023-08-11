@@ -8,6 +8,7 @@ $statement->execute();
 <html>
     <head>
         <title>Employees</title>
+        <link rel="stylesheet" href="../style.css">
     </head>
     <body>
         <h1> List of Employees</h1>

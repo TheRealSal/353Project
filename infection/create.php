@@ -27,6 +27,7 @@ if (isset($_POST["personID"]) && isset($_POST["infectionDate"]) && isset($_POST[
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="../style.css">
     <title>Add Infection Record</title>
 </head>
 <body>

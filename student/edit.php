@@ -35,6 +35,7 @@ if (isset($_POST["studentID"]) && isset($_POST["personID"]) && isset($_POST["cur
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Student</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>

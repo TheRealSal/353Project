@@ -30,6 +30,7 @@ if (isset($_POST["personID"]) && isset($_POST["doseNumber"]) && isset($_POST["va
 <html>
 <head>
     <title>Add Vaccination Record</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>Add Vaccination Record</h1>

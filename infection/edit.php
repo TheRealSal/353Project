@@ -37,6 +37,7 @@ if (isset($_POST["personID"]) && isset($_POST["infectionDate"])) {
 <html>
 <head>
     <title>Edit Infection Record</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>Edit Infection Record</h1>

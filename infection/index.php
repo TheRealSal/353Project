@@ -9,6 +9,7 @@ $statement->execute();
 <html>
 <head>
     <title>Infection Records</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>List of Infection Records</h1>

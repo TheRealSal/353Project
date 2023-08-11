@@ -40,6 +40,7 @@ if (isset($_POST["personID"]) && isset($_POST["doseNumber"])) {
 <html>
 <head>
     <title>Edit Vaccination Record</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>Edit Vaccination Record</h1>

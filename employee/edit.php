@@ -35,6 +35,7 @@ if (isset($_POST["employeeID"]) && isset($_POST["personID"]) && isset($_POST["em
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Employee</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
