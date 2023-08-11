@@ -1,25 +1,17 @@
 <?php
 require_once '../database.php';
 
-if (isset($_POST["studentID"])) {
-    $studentID = $_POST["studentID"];
+if (isset($_POST["firstName"])) {
     $personID = $_POST["personID"];
-    $currentLevel = $_POST["currentLevel"];
-
-    // Insert data into the student table
-    $studentStatement = $conn->prepare("INSERT INTO student (studentID, personID, currentLevel)
-                                        VALUES (:studentID, :personID, :currentLevel)");
-
-    $studentStatement->bindParam(':studentID', $studentID);
-    $studentStatement->bindParam(':personID', $personID);
-    $studentStatement->bindParam(':currentLevel', $currentLevel);
+    $studentID = $_POST["studentID"];
 
     // Insert data into the personalInformation table
     $personalInfoStatement = $conn->prepare("INSERT INTO personalInformation 
-                                             (personID, firstName, lastName, dateOfBirth, postalCode, address, phoneNumber, email, citizenship, medicareNumber, medicareExpirationDate, studentID)
-                                             VALUES 
-                                             (:personID, :firstName, :lastName, :dateOfBirth, :postalCode, :address, :phoneNumber, :email, :citizenship, :medicareNumber, :medicareExpirationDate, :studentID)");
+                                                 (personID, firstName, lastName, dateOfBirth, postalCode, address, phoneNumber, email, citizenship, medicareNumber, medicareExpirationDate, studentID, personType)
+                                                 VALUES 
+                                                 (:personID, :firstName, :lastName, :dateOfBirth, :postalCode, :address, :phoneNumber, :email, :citizenship, :medicareNumber, :medicareExpirationDate, :studentID, :personType)");
 
+    $personType = "STUDENT";
     $personalInfoStatement->bindParam(':personID', $personID);
     $personalInfoStatement->bindParam(':firstName', $_POST["firstName"]);
     $personalInfoStatement->bindParam(':lastName', $_POST["lastName"]);
@@ -31,15 +23,31 @@ if (isset($_POST["studentID"])) {
     $personalInfoStatement->bindParam(':citizenship', $_POST["citizenship"]);
     $personalInfoStatement->bindParam(':medicareNumber', $_POST["medicareNumber"]);
     $personalInfoStatement->bindParam(':medicareExpirationDate', $_POST["medicareExpirationDate"]);
+    $personalInfoStatement->bindParam(':personType', $personType);
     $personalInfoStatement->bindParam(':studentID', $studentID);
 
-    if ($studentStatement->execute() && $personalInfoStatement->execute()) {
-        header("Location: .");
+    if ($personalInfoStatement->execute()) {
+        // Insert data into the student table
+        $currentLevel = $_POST["currentLevel"];
+
+        $studentStatement = $conn->prepare("INSERT INTO student (studentID, personID, currentLevel)
+                                             VALUES (:studentID, :personID, :currentLevel)");
+
+        $studentStatement->bindParam(':studentID', $studentID);
+        $studentStatement->bindParam(':personID', $personID);
+        $studentStatement->bindParam(':currentLevel', $currentLevel);
+
+        if ($studentStatement->execute()) {
+            header("Location: .");
+        } else {
+            echo "Error creating student.";
+        }
     } else {
-        echo "Error creating student and personal information.";
+        echo "Error creating personal information.";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

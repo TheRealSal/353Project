@@ -1,43 +1,17 @@
-<?php require_once '../database.php';
-
-if(isset($_POST["employeeID"])){
-    $employee = $conn->prepare("INSERT INTO employee (employee, personID, employeeType)
-                                VALUES (:studentID, :personID, employeeType);");
-
-    $employee->bindParam(':employeeID', $_POST["employeeID"]);
-    $employee->bindParam(':personID', $_POST["personID"]);
-    $employee->bindParam(':employeeType', $_POST["employeeType"]);
-
-    if($employee->execute()) {
-        header("Location: .");
-    } else {
-
-    }
-}
-
-?>
-
 <?php
 require_once '../database.php';
 
-if (isset($_POST["employeeID"])) {
-    $employeeID = $_POST["employeeID"];
+if (isset($_POST["firstName"])) {
     $personID = $_POST["personID"];
-    $employeeType = $_POST["employeeType"];
-
-    // Insert data into the employee table
-    $employeeStatement = $conn->prepare("INSERT INTO employee (employeeID, personID, employeeType)
-                                         VALUES (:employeeID, :personID, \"EMPLOYEE\")");
-
-    $employeeStatement->bindParam(':employeeID', $employeeID);
-    $employeeStatement->bindParam(':personID', $personID);
+    $employeeID = $_POST["employeeID"];
 
     // Insert data into the personalInformation table
     $personalInfoStatement = $conn->prepare("INSERT INTO personalInformation 
-                                             (personID, firstName, lastName, dateOfBirth, postalCode, address, phoneNumber, email, citizenship, medicareNumber, medicareExpirationDate, employeeID)
-                                             VALUES 
-                                             (:personID, :firstName, :lastName, :dateOfBirth, :postalCode, :address, :phoneNumber, :email, :citizenship, :medicareNumber, :medicareExpirationDate, :employeeID)");
+                                                 (personID, firstName, lastName, dateOfBirth, postalCode, address, phoneNumber, email, citizenship, medicareNumber, medicareExpirationDate, employeeID, personType)
+                                                 VALUES 
+                                                 (:personID, :firstName, :lastName, :dateOfBirth, :postalCode, :address, :phoneNumber, :email, :citizenship, :medicareNumber, :medicareExpirationDate, :employeeID, :personType)");
 
+    $personType = "EMPLOYEE";
     $personalInfoStatement->bindParam(':personID', $personID);
     $personalInfoStatement->bindParam(':firstName', $_POST["firstName"]);
     $personalInfoStatement->bindParam(':lastName', $_POST["lastName"]);
@@ -49,12 +23,27 @@ if (isset($_POST["employeeID"])) {
     $personalInfoStatement->bindParam(':citizenship', $_POST["citizenship"]);
     $personalInfoStatement->bindParam(':medicareNumber', $_POST["medicareNumber"]);
     $personalInfoStatement->bindParam(':medicareExpirationDate', $_POST["medicareExpirationDate"]);
-    $personalInfoStatement->bindParam(':employeeID', $employeeID);
+    $personalInfoStatement->bindParam(':personType',$personType);
+    $personalInfoStatement->bindParam(':employeeID',$employeeID);
 
-    if ($employeeStatement->execute() && $personalInfoStatement->execute()) {
-        header("Location: .");
+    if ($personalInfoStatement->execute()) {
+        // Insert data into the employee table
+        $employeeType = $_POST["employeeType"];
+        
+        $employeeStatement = $conn->prepare("INSERT INTO employee (employeeID, personID, employeeType)
+                                             VALUES (:employeeID, :personID, :employeeType)");
+
+        $employeeStatement->bindParam(':employeeID', $employeeID);
+        $employeeStatement->bindParam(':personID', $personID);
+        $employeeStatement->bindParam(':employeeType', $employeeType);
+
+        if ($employeeStatement->execute()) {
+            header("Location: .");
+        } else {
+            echo "Error creating employee.";
+        }
     } else {
-        echo "Error creating employee and personal information.";
+        echo "Error creating personal information.";
     }
 }
 ?>
