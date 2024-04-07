@@ -3,10 +3,10 @@
 session_start();
 
 // Database configuration
-$host = 'hdc353.encs.concordia.ca';
-$user = 'hdc353_1';
-$password = '353says4';
-$database = 'hdc353_1'; 
+$host = '';
+$user = '';
+$password = '';
+$database = ''; 
 
 // PDO database connection
 try {
